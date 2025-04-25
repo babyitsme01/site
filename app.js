@@ -3,47 +3,58 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// Ensure the uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: 'dde5r8hnk', // Your Cloudinary cloud name
+  api_key: '628724154338216', // Your Cloudinary API key
+  api_secret: 'tFuSPCm-iE0cORWbjVwj4SsF4gE', // Your Cloudinary API secret
+});
+
+// Set up Cloudinary storage for Multer
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads', // Folder name in your Cloudinary account
+    allowed_formats: ['jpg', 'png', 'jpeg', 'mp3'], // Allowed file formats
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Create an express app instance
 const app = express();  // <-- Define the app instance here
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware for handling form submissions and static files
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/uploads', express.static('uploads'));
 
-// Set up multer for handling file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + file.originalname;
-    cb(null, uniqueName);
-  }
-});
-
-const upload = multer({ storage: storage });
-
 // Handle the form submission and redirect to result page
 app.post('/submit', upload.fields([{ name: 'photo' }, { name: 'song' }]), (req, res) => {
   try {
-    // Log the incoming request data
     console.log('Body:', req.body);
     console.log('Files:', req.files);
 
-    // Check if files are uploaded
     if (!req.files || !req.files['photo'] || !req.files['song']) {
       return res.status(400).send('Photo and song files are required.');
     }
 
     const username = req.body.username || 'Unknown User';
-    const photoPath = `/uploads/${req.files['photo'][0].filename}`;
-    const songPath = `/uploads/${req.files['song'][0].filename}`;
+    const photoPath = req.files['photo'][0].path; // Cloudinary URL
+    const songPath = req.files['song'][0].path;   // Cloudinary URL
 
-    // Redirect to the result page with the data
+    // Ensure proper encoding of the redirect URL
     res.redirect(`/result?username=${encodeURIComponent(username)}&photo=${encodeURIComponent(photoPath)}&song=${encodeURIComponent(songPath)}`);
   } catch (error) {
     console.error('Error handling form submission:', error);
