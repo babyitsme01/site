@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo & Song Upload</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 10px 0 5px;
+      font-size: 0.9rem;
+      color: #f5c518;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input[type="text"] {
+      background: #fff;
+      color: #000;
+    }
+
+    input[type="file"] {
+      background: #333;
+      color: #fff;
+    }
+
+    button {
+      background: #f5c518;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #ffcc00;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      form {
+        padding: 15px;
+      }
+
+      input[type="text"],
+      input[type="file"],
+      button {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Create Your Personalized Experience</h1>
+  <form action="/submit" method="POST" enctype="multipart/form-data">
+    <label for="username">Your Name:</label>
+    <input type="text" id="username" name="username" placeholder="Enter your name" required>
+
+    <label for="photo">Upload Your Photo:</label>
+    <input type="file" id="photo" name="photo" accept="image/*" required>
+
+    <label for="song">Upload Your Song:</label>
+    <input type="file" id="song" name="song" accept="audio/*" required>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* General body styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* Heading styling */
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Form container styling */
+form {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 400px;
+}
+
+/* Input and button styling */
+input[type="text"],
+input[type="file"],
+button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Text input styling */
+input[type="text"] {
+  background: #fff;
+  color: #000;
+}
+
+/* File input styling */
+input[type="file"] {
+  background: #333;
+  color: #fff;
+}
+
+/* Button styling */
+button {
+  background: #f5c518;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #ffcc00;
+}
+
+/* Uploaded image preview */
+img {
+  display: block;
+  margin: 20px auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  input[type="text"],
+  input[type="file"],
+  button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
