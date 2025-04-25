@@ -29,12 +29,26 @@ const upload = multer({ storage: storage });
 
 // Handle the form submission and redirect to result page
 app.post('/submit', upload.fields([{ name: 'photo' }, { name: 'song' }]), (req, res) => {
-  const username = req.body.username;
-  const photoPath = `/uploads/${req.files['photo'][0].filename}`;
-  const songPath = `/uploads/${req.files['song'][0].filename}`;
+  try {
+    // Log the incoming request data
+    console.log('Body:', req.body);
+    console.log('Files:', req.files);
 
-  // Redirect to the result page with the data
-  res.redirect(`/result?username=${username}&photo=${photoPath}&song=${songPath}`);
+    // Check if files are uploaded
+    if (!req.files || !req.files['photo'] || !req.files['song']) {
+      return res.status(400).send('Photo and song files are required.');
+    }
+
+    const username = req.body.username || 'Unknown User';
+    const photoPath = `/uploads/${req.files['photo'][0].filename}`;
+    const songPath = `/uploads/${req.files['song'][0].filename}`;
+
+    // Redirect to the result page with the data
+    res.redirect(`/result?username=${encodeURIComponent(username)}&photo=${encodeURIComponent(photoPath)}&song=${encodeURIComponent(songPath)}`);
+  } catch (error) {
+    console.error('Error handling form submission:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Serve the result page with the submitted data
